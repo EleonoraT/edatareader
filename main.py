@@ -1,44 +1,41 @@
-# ds = 0
-# db = 0
-# d1 = []
-# d2 = []
-# with open('test.txt', 'r') as inf:
-#     s = inf.readline()
-#     for i in range(len(s)):
-#         if s[i] < 'A':
-#             ds = int(s[i])
-#             d1.append(ds)
-#             while s[i] < 'A':
-#                 ds += int(s[i])
-#             d1.append(ds)
-#         elif s[i] >= 'A':
-#             db = s[i]
-#             d2.append(db)
-# for i in range(len(d2)):
-#     a = d1[i]
-#     for j in range(a):
-#         print(d2[i], end = "")
+# в задание надо бфло расшифровать код в файле,и записать в другой файл расшифровку
+ds = ''  #переменная для цифр
+db = 0  #переменая для букв
+d1 = [] #хранилище для цифр
+d2 = [] #хранилище для букв
+with open('dataset_3363_2.txt', 'r') as inf:     #открываем файл для чтения
+    s = inf.readline()          #выписываем первую строку(модифицировать-добавить цикл на много строк)
+    i = 0
+    while i < len(s):           #смотрим все литтералы которые у нас есть
+      if s[i] >= 'A':           #емли это буква
+          db = s[i]             #вписываем в переменную дб
+          d2.append(db)         #а переменную записываем в список
+          i += 1                #
+      elif s[i] < 'A':          #а если у нас цифра
+          while s[i] < 'A':     #смотрим циклом сколько раз она повторяется
+              ds += s[i]        #записываем литтерал в переменную
+              i += 1            #
+              if i == len(s):   #и если выходим за пределы длинны строки,то
+                  break         #выходим с цикла
+          d1.append(int(ds))    #добавляем в список переменную у которой изменили тип
+          ds = ''               #обнуляем переменую дс
+with open('test2.txt', 'w') as out:         #открываем новый файл для записи
+    for i in range(len(d2)):        #циклом смотри длину списка с буквами
+        a = d1[i]               #цифру записываем в переменную а
+        for j in range(a):          #
+            out.write(d2[i])    #записываем букву столько раз. сколько у нас число а
+# for i in range(len(d2)):        #
+#     a = d1[i]                   #
+#     for j in range(a):          #
+#         print(d2[i], end = "")  #
 
-ds = ''
-db = 0
-d1 = []
-d2 = []
-s = 'a3b4c2e10b1'
+# работа другого человека
+with open('dataset_3363_2.txt', 'r') as f:
+    s = f.readline().strip()
 i = 0
 while i < len(s):
-    if s[i] < 'A':
-        i += 1
-        while s[i] < 'A':
-            ds += s[i-1]
-            i += 1
-        ds += s[i-1]
-        d1.append(ds)
-        ds = ''
-    elif s[i] >= 'A':
-        db = s[i]
-        d2.append(db)
-        i += 1
-for i in range(len(d2)):
-    a = d1[i]
-    for j in range(a):
-        print(d2[i], end = "")
+    j = i + 1
+    while j < len(s) and s[j].isdigit():
+        j += 1
+    print(s[i] * int(s[i+1:j]), end='')
+    i = j
